@@ -1,0 +1,17 @@
+<h2>Upload OMR</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    Roll: <input name="roll"><br><br>
+
+    Subject:
+    <select name="subject">
+        {% for s in subjects %}
+            <option value="{{ s.id }}">{{ s.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    File: <input type="file" name="omr_image"><br><br>
+
+    <button>Upload</button>
+</form>

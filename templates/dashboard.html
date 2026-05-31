@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(120deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .card {
+            display: inline-block;
+            background: white;
+            color: black;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 10px;
+            width: 200px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            background: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Welcome {{ student.name }}</h1>
+    
+
+<a href="{% url 'omr_dashboard' %}">OMR</a>
+<a href="{% url 'core_result' student.id %}">CORE</a>
+
+    <a href="{% url 'omr_dashboard' %}">
+        <div class="card">
+            <h2>📝 OMR</h2>
+            <p>View OMR Results</p>
+        </div>
+    </a>
+
+    <a href="{% url 'core_result' student.id %}">
+        <div class="card">
+            <h2>📘 CORE</h2>
+            <p>View Core Results</p>
+        </div>
+    </a>
+</div>
+
+</body>
+</html>

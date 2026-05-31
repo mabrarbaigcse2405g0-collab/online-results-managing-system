@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OMR Result</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #eef3ff;
+        }
+
+        .card {
+            width: 700px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background: #4facfe;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .score {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: red;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>OMR RESULT REPORT</h2>
+
+    <p><b>Name:</b> {{ student.name }}</p>
+
+    <div class="score">
+        <p><b>Score:</b> {{ score }} / {{ total }}</p>
+        <p><b>Percentage:</b> {{ percentage }}%</p>
+    </div>
+
+    <h2>OMR RESULT - {{ student.name }}</h2>
+
+<table border="1">
+    <tr>
+        <th>Subject</th>
+        <th>Marks</th>
+        <th>Percentile</th>
+    </tr>
+
+    {% for r in results %}
+    <tr>
+        <td>{{ r.subject.name }}</td>
+        <td>{{ r.total_marks }}</td>
+        <td>
+            {{ r.total_marks|floatformat:2 }}%
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+</body>
+</html>

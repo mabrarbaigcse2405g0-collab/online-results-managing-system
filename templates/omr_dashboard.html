@@ -1,0 +1,101 @@
+<style>
+    body {
+        font-family: Arial;
+        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+        color: #2e2e2e;
+        text-align: center;
+        margin: 0;
+    }
+
+    h1 {
+        color: #1b5e20;
+        margin-top: 20px;
+        font-size: 28px;
+    }
+
+    table {
+        margin: 30px auto;
+        background: #ffffff;
+        color: #333;
+        border-collapse: collapse;
+        width: 85%;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+
+    th {
+        background: #2e7d32;
+        color: white;
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    td {
+        padding: 12px;
+        border: 1px solid #eaeaea;
+    }
+
+    tr:nth-child(even) {
+        background: #f1f8e9;
+    }
+
+    tr:hover {
+        background: #dcedc8;
+        transition: 0.2s;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+```
+<div class="top">
+    
+```<h2>OMR Dashboard</h2>
+
+<table border="1">
+<tr>
+    <th>Subject</th>
+    <th>Marks</th>
+    <th>Total</th>
+    <th>Percentage</th>
+    <th>Student Answer</th>
+    <th>Correct Answer</th>
+</tr>
+
+{% for r in results %}
+<tr>
+    <td>{{ r.subject.name }}</td>
+    <td>{{ r.marks }}</td>
+    <td>{{ r.total_marks }}</td>
+    <td>{{ r.percentage|floatformat:2 }}%</td>
+
+    <td>
+        {% if r.student_answer_pdf %}
+            <a href="{{ r.student_answer_pdf.url }}" target="_blank">View</a>
+        {% else %}
+            No File
+        {% endif %}
+    </td>
+
+    <td>
+        {% if r.correct_answer_file %}
+            <a href="{{ r.correct_answer_file.url }}" target="_blank">View</a>
+        {% else %}
+            No File
+        {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="6">No OMR results found</td>
+</tr>
+{% endfor %}
+</table>
+
+</div>
+
+</body>
+</html>

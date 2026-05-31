@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <h2>OMR Results</h2>
+
+    {% for r in results %}
+        <div class="result-box">
+            <p><b>Exam:</b> {{ r.exam.name }}</p>
+            <p><b>Marks:</b> {{ r.marks }}</p>
+            <p><b>Percentage:</b> {{ r.percentage|floatformat:2 }}%</p>
+        </div>
+    {% empty %}
+        <p>No OMR Results Available</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

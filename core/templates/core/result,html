@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            padding: 20px;
+            margin: 50px auto;
+            width: 60%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid gray;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Student Result</h1>
+
+    <h3>Name: {{ result.student.name }}</h3>
+    <h3>Subject: {{ result.subject.name }}</h3>
+    <h2>Total Marks: {{ result.total_marks }}</h2>
+
+    <table>
+        <tr><th>Question</th><th>Marks</th></tr>
+        <tr><td>Q1A</td><td>{{ result.q1a }}</td></tr>
+        <tr><td>Q1B</td><td>{{ result.q1b }}</td></tr>
+        <tr><td>Q2A</td><td>{{ result.q2a }}</td></tr>
+        <tr><td>Q2B</td><td>{{ result.q2b }}</td></tr>
+        <tr><td>Q3A</td><td>{{ result.q3a }}</td></tr>
+        <tr><td>Q3B</td><td>{{ result.q3b }}</td></tr>
+        <tr><td>Q4A</td><td>{{ result.q4a }}</td></tr>
+        <tr><td>Q4B</td><td>{{ result.q4b }}</td></tr>
+        <tr><td>Q5A</td><td>{{ result.q5a }}</td></tr>
+        <tr><td>Q5B</td><td>{{ result.q5b }}</td></tr>
+        <tr><td>Q6A</td><td>{{ result.q6a }}</td></tr>
+        <tr><td>Q6B</td><td>{{ result.q6b }}</td></tr>
+    </table>
+</div>
+
+</body>
+</html>

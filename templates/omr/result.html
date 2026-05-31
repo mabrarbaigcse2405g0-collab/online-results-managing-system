@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OMR Result</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #eef3ff;
+        }
+
+        .card {
+            width: 700px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #4facfe;
+            color: white;
+        }
+
+        td, th {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>OMR RESULT</h2>
+
+    <p><b>Student:</b> {{ student.name }}</p>
+    <p class="score"><b>Score:</b> {{ score }}</p>
+
+    <table>
+        <tr>
+            <th>Q No</th>
+            <th>Your Answer</th>
+            <th>Correct</th>
+        </tr>
+
+        {% for r in results %}
+        <tr>
+            <td>{{ r.0 }}</td>
+            <td>{{ r.1 }}</td>
+            <td>{{ r.2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</body>
+</html>
