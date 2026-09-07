@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <style>
+        body { font-family: Arial; text-align: center; background: #f4f4f4; }
+        table { margin: auto; width: 60%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid gray; }
+        th { background: #333; color: white; }
+        .correct { color: green; }
+        .wrong { color: red; }
+    </style>
+</head>
+<body>
+
+<h1>OMR Result</h1>
+
+<h3>{{ student.name }}</h3>
+<h3>{{ subject.name }}</h3>
+<h2>Score: {{ score }}</h2>
+
+<table>
+<tr>
+    <th>Q No</th>
+    <th>Your Answer</th>
+    <th>Correct</th>
+    <th>Status</th>
+</tr>
+
+{% for q, ans, correct, status in results %}
+<tr>
+    <td>{{ q }}</td>
+    <td>{{ ans }}</td>
+    <td>{{ correct }}</td>
+    <td class="{% if status == '✔' %}correct{% else %}wrong{% endif %}">
+        {{ status }}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

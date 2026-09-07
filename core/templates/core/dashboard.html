@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Dashboard</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #eef3ff;
+    text-align: center;
+}
+
+.card {
+    width: 250px;
+    display: inline-block;
+    padding: 30px;
+    margin: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.omr { background: #4facfe; color: white; }
+.core { background: #43e97b; color: white; }
+</style>
+</head>
+
+<body>
+
+<h1>Welcome {{ user.username }}</h1>
+
+<a href="/omr-result/{{ user.student.id }}/">
+    <div class="card omr">
+        <h2>OMR RESULT</h2>
+    </div>
+</a>
+
+<a href="/core-result/{{ user.student.id }}/">
+    <div class="card core">
+        <h2>CORE RESULT</h2>
+    </div>
+</a>
+
+</body>
+</html>
