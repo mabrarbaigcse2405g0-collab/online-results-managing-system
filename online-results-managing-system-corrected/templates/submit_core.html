@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}CORE Result Entry{% endblock %}
+{% block content %}
+<div class="card" style="max-width:650px;margin:auto">
+    <h1>CORE Result Entry</h1>
+    <p class="muted">This page is for Django staff/admin users.</p>
+    <form method="post">
+        {% csrf_token %}
+        <label>Student</label>
+        <select name="student_id" required>
+            <option value="">Select student</option>
+            {% for s in students %}<option value="{{ s.id }}">{{ s.roll }} - {{ s.name }}</option>{% endfor %}
+        </select>
+        <label>Subject</label>
+        <select name="subject_id" required>
+            <option value="">Select subject</option>
+            {% for s in subjects %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}
+        </select>
+        <label>Marks</label><input type="number" name="marks" min="0" required>
+        <label>Total Marks</label><input type="number" name="total_marks" min="1" required>
+        <button type="submit">Save CORE Result</button>
+    </form>
+</div>
+{% endblock %}

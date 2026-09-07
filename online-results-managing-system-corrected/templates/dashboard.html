@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Welcome, {{ student.name }}</h1>
+    <p class="muted">Roll Number: {{ student.roll }}</p>
+</div>
+<div class="grid">
+    <a class="card tile" href="{% url 'omr_dashboard' %}">
+        <div class="stat">{{ omr_count }}</div><h2>📝 OMR Results</h2>
+        <p class="muted">View automatically evaluated OMR results.</p>
+    </a>
+    <a class="card tile" href="{% url 'core_result' %}">
+        <div class="stat">{{ core_count }}</div><h2>📘 CORE Results</h2>
+        <p class="muted">View manually entered core subject marks.</p>
+    </a>
+</div>
+{% endblock %}

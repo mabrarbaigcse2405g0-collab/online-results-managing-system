@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Student Result Portal{% endblock %}</title>
+    <style>
+        *{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+        nav{background:#172554;color:#fff;padding:14px 5%;display:flex;justify-content:space-between;align-items:center}
+        nav a{color:#fff;text-decoration:none;margin-left:18px}.brand{font-weight:700}
+        .wrap{max-width:1100px;margin:35px auto;padding:0 20px}
+        .card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 24px rgba(15,23,42,.08);margin-bottom:20px}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+        .tile{display:block;text-decoration:none;color:inherit;transition:.2s}.tile:hover{transform:translateY(-3px)}
+        table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:13px;border-bottom:1px solid #e5e7eb;text-align:left}th{background:#172554;color:#fff}
+        input,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;margin:7px 0 14px}
+        button,.btn{display:inline-block;border:0;border-radius:8px;background:#2563eb;color:#fff;padding:11px 16px;text-decoration:none;cursor:pointer}
+        .btn.secondary{background:#475569}.error{color:#b91c1c}.success{color:#166534;background:#dcfce7;padding:10px;border-radius:8px;margin-bottom:15px}
+        .stat{font-size:30px;font-weight:700}.muted{color:#64748b}.right{text-align:right}
+    </style>
+</head>
+<body>
+<nav>
+    <div class="brand">🎓 Student Result Portal</div>
+    <div>
+        {% if request.session.student_id %}
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'omr_dashboard' %}">OMR</a>
+            <a href="{% url 'core_result' %}">CORE</a>
+            <a href="{% url 'upload_omr' %}">Upload OMR</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% endif %}
+    </div>
+</nav>
+<div class="wrap">
+    {% for message in messages %}
+        <div class="{% if message.tags == 'error' %}error{% else %}success{% endif %}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

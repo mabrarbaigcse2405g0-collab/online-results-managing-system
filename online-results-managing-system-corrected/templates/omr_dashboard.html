@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}OMR Results{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>OMR Results</h1>
+    <p class="muted">Student: {{ student.name }} | {{ student.roll }}</p>
+</div>
+<div class="card">
+<table>
+<tr><th>Subject</th><th>Marks</th><th>Total</th><th>Percentage</th><th>Student Sheet</th><th>Correct Key</th></tr>
+{% for r in results %}
+<tr>
+    <td>{{ r.subject.name }}</td><td>{{ r.marks }}</td><td>{{ r.total_marks }}</td>
+    <td>{{ r.percentage }}%</td>
+    <td>{% if r.student_answer_file %}<a href="{{ r.student_answer_file.url }}" target="_blank">View</a>{% else %}-{% endif %}</td>
+    <td>{% if r.correct_answer_file %}<a href="{{ r.correct_answer_file.url }}" target="_blank">View</a>{% else %}-{% endif %}</td>
+</tr>
+{% empty %}<tr><td colspan="6">No OMR results found.</td></tr>{% endfor %}
+</table>
+</div>
+<a class="btn" href="{% url 'upload_omr' %}">Upload OMR</a>
+{% endblock %}
