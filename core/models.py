@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-
+# Jenkins test change
 # ✅ SUBJECT
 class Subject(models.Model):
     name = models.CharField(max_length=100)

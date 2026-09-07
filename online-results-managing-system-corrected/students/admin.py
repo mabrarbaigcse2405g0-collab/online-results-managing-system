@@ -6,3 +6,4 @@ class StudentAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "roll")
     search_fields = ("name", "roll")
     ordering = ("roll",)
+# Jenkins test change
