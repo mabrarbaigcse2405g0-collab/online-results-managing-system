@@ -88,3 +88,4 @@ class Result(models.Model):
 
     def __str__(self):
         return f"{self.student.name} - {self.subject.name} - {self.total_marks}"
+    #hello world
