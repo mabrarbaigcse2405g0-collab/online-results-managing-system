@@ -1,3 +1,7 @@
+"""
+This is Gowtham Varma
+"""
+
 from django.contrib import admin
 from django.urls import path
 from omr import views
@@ -17,10 +21,13 @@ urlpatterns = [
     path('core-result/<int:student_id>/', views.core_result_page, name='core_result'),
 
     path('submit-core/', views.submit_core, name='submit_core'),
-    
+
     path('submit-core-page/', views.submit_core_page, name='submit_core_page'),
-    
+
+    # New feature
+    path('student-profile/', views.student_profile, name='student_profile'),
 ]
+
 
 # ✅ ONLY ONCE (IMPORTANT)
 if settings.DEBUG:
