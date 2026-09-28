@@ -9,12 +9,12 @@ class CorrectAnswerAdmin(admin.ModelAdmin):
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'roll number')
 
 
 @admin.register(QuestionAnswer)
 class QuestionAnswerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'correct_answer', 'question_number', 'answer')
+    list_display = ('id', 'correct_answer', 'question_number', 'answers')
 
 
 @admin.register(StudentOMR)
