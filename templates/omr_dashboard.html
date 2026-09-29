@@ -1,16 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OMR Dashboard</title>
 <style>
     body {
-        font-family: Arial;
+        font-family: Arial, sans-serif;
         background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
         color: #2e2e2e;
         text-align: center;
         margin: 0;
+        padding-bottom: 40px;
     }
 
     h1 {
         color: #1b5e20;
-        margin-top: 20px;
+        margin-top: 25px;
         font-size: 28px;
+    }
+
+    h2 {
+        color: #2e7d32;
+        margin-top: 20px;
     }
 
     table {
@@ -44,57 +54,67 @@
         background: #dcedc8;
         transition: 0.2s;
     }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #1b5e20;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
 </style>
 </head>
 <body>
 
 <div class="container">
+    <h2>OMR Dashboard</h2>
+    <p>Student: <strong>{{ student.name }}</strong> (Roll: {{ student.roll }})</p>
 
-```
-<div class="top">
-    
-```<h2>OMR Dashboard</h2>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Total</th>
+            <th>Percentage</th>
+            <th>Student Answer</th>
+            <th>Correct Answer</th>
+        </tr>
 
-<table border="1">
-<tr>
-    <th>Subject</th>
-    <th>Marks</th>
-    <th>Total</th>
-    <th>Percentage</th>
-    <th>Student Answer</th>
-    <th>Correct Answer</th>
-</tr>
+        {% for r in results %}
+        <tr>
+            <td>{{ r.subject.name }}</td>
+            <td>{{ r.marks }}</td>
+            <td>{{ r.total_marks }}</td>
+            <td>{{ r.percentage|floatformat:2 }}%</td>
 
-{% for r in results %}
-<tr>
-    <td>{{ r.subject.name }}</td>
-    <td>{{ r.marks }}</td>
-    <td>{{ r.total_marks }}</td>
-    <td>{{ r.percentage|floatformat:2 }}%</td>
+            <td>
+                {% if r.student_answer_pdf %}
+                    <a href="{{ r.student_answer_pdf.url }}" target="_blank">View</a>
+                {% else %}
+                    No File
+                {% endif %}
+            </td>
 
-    <td>
-        {% if r.student_answer_pdf %}
-            <a href="{{ r.student_answer_pdf.url }}" target="_blank">View</a>
-        {% else %}
-            No File
-        {% endif %}
-    </td>
+            <td>
+                {% if r.correct_answer_file %}
+                    <a href="{{ r.correct_answer_file.url }}" target="_blank">View</a>
+                {% else %}
+                    No File
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No OMR results found</td>
+        </tr>
+        {% endfor %}
+    </table>
 
-    <td>
-        {% if r.correct_answer_file %}
-            <a href="{{ r.correct_answer_file.url }}" target="_blank">View</a>
-        {% else %}
-            No File
-        {% endif %}
-    </td>
-</tr>
-{% empty %}
-<tr>
-    <td colspan="6">No OMR results found</td>
-</tr>
-{% endfor %}
-</table>
-
+    <a href="{% url 'dashboard' %}" class="back-link">⬅ Back to Dashboard</a>
 </div>
 
 </body>

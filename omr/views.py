@@ -75,19 +75,24 @@ def core_result_page(request, student_id):
         result_type="CORE"
     )
 
+    for r in results:
+        r.percentage = (r.marks / r.total_marks) * 100 if r.total_marks else 0
+
     return render(request, "core_result.html", {
         "student": student,
         "results": results
     })
+
+
 # =========================
-# LOGIN
+# LOGIN & LOGOUT
 # =========================
 def result_login(request):
     if request.method == "POST":
-        roll = request.POST.get("roll")
+        roll = request.POST.get("roll", "").strip()
 
         try:
-            student = Student.objects.get(roll=roll)
+            student = Student.objects.get(roll__iexact=roll)
             request.session["student_id"] = student.id
             return redirect("dashboard")
 
@@ -97,6 +102,11 @@ def result_login(request):
             })
 
     return render(request, "result_login.html")
+
+
+def student_logout(request):
+    request.session.flush()
+    return redirect("result_login")
 
 
 # =========================
@@ -142,16 +152,20 @@ def upload_omr(request):
         result.save()
 
         return redirect("omr_dashboard")
+
+
+# =========================
+# SUBMIT CORE RESULT
+# =========================
 def submit_core(request):
     if request.method == "POST":
-
         student_id = request.POST.get("student_id")
         subject_id = request.POST.get("subject_id")
-        marks = request.POST.get("marks")
-        total_marks = request.POST.get("total_marks")
+        marks = request.POST.get("marks", 0)
+        total_marks = request.POST.get("total_marks", 0)
 
-        student = Student.objects.get(id=student_id)
-        subject = Subject.objects.get(id=subject_id)
+        student = get_object_or_404(Student, id=student_id)
+        subject = get_object_or_404(Subject, id=subject_id)
 
         # ✅ CREATE CORE RESULT
         result, created = Result.objects.get_or_create(
@@ -164,17 +178,31 @@ def submit_core(request):
         result.marks = marks
         result.total_marks = total_marks
 
-        # 🔥 GET ADMIN UPLOADED FILES
+        # 🔥 GET ADMIN UPLOADED FILES (SAFE LOOKUP)
         correct_obj = CorrectAnswer.objects.filter(subject=subject).first()
 
         if correct_obj:
-            result.student_answer_pdf = correct_obj.student_answer_file
-            result.correct_answer_file = correct_obj.correct_answer_file
+            if hasattr(correct_obj, 'student_answer_file'):
+                result.student_answer_pdf = correct_obj.student_answer_file
+            if hasattr(correct_obj, 'correct_answer_file'):
+                result.correct_answer_file = correct_obj.correct_answer_file
 
         # ✅ SAVE FINAL
         result.save()
 
         return redirect("core_result", student_id=student.id)
 
+    return redirect("submit_core_page")
+
+
 def submit_core_page(request):
-    return render(request, "submit_core.html")   
+    return render(request, "submit_core.html")
+
+
+def student_profile(request):
+    student_id = request.session.get("student_id")
+    if not student_id:
+        return redirect("result_login")
+    student = get_object_or_404(Student, id=student_id)
+    return render(request, "dashboard.html", {"student": student})
+   

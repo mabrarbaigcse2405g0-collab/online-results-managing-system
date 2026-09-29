@@ -10,6 +10,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', views.result_login, name='home'),
     path('admin/', admin.site.urls),
 
     path('result-login/', views.result_login, name='result_login'),
@@ -26,6 +27,7 @@ urlpatterns = [
 
     # New feature
     path('student-profile/', views.student_profile, name='student_profile'),
+    path('logout/', views.student_logout, name='logout'),
 ]
 
 
