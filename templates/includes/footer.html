@@ -1,0 +1,32 @@
+<style>
+    .site-footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        padding: 10px 16px;
+        background: rgba(20, 30, 60, 0.92);
+        color: #ffffff;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .site-footer .footer-title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .site-footer-spacer {
+        height: 80px;
+    }
+</style>
+
+{% if spacer %}<div class="site-footer-spacer"></div>{% endif %}
+<footer class="site-footer">
+    <div class="footer-title">MGIT Student Result Management System</div>
+    <div>Mahatma Gandhi Institute of Technology</div>
+    <div>&copy; 2026 MGIT</div>
+</footer>
