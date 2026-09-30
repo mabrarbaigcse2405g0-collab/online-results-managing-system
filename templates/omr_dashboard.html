@@ -74,6 +74,10 @@
     <h2>OMR Dashboard</h2>
     <p>Student: <strong>{{ student.name }}</strong> (Roll: {{ student.roll }})</p>
 
+    {% if summary %}
+    {% include "includes/result_summary.html" %}
+    {% endif %}
+
     <table>
         <tr>
             <th>Subject</th>

@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Subject, StudentOMR, Result, CorrectAnswer
 from students.models import Student
+from .summary import build_result_summary
 
 import cv2
 import numpy as np
@@ -59,7 +60,8 @@ def omr_dashboard(request):
 
     return render(request, "omr_dashboard.html", {
         "student": student,
-        "results": results
+        "results": results,
+        "summary": build_result_summary(results)
     })
 
 
@@ -80,7 +82,8 @@ def core_result_page(request, student_id):
 
     return render(request, "core_result.html", {
         "student": student,
-        "results": results
+        "results": results,
+        "summary": build_result_summary(results)
     })
 
 
