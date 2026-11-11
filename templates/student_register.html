@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration - MGIT SRMS</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    margin: 0;
+    padding: 20px 0;
+    min-height: 100vh;
+}
+
+.box {
+    width: 420px;
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 5px rgba(79, 172, 254, 0.4);
+}
+
+.gender-group {
+    margin: 14px 0;
+    display: flex;
+    align-items: center;
+}
+
+.gender-group span {
+    font-weight: bold;
+    margin-right: 15px;
+    color: #444;
+}
+
+.gender-group label {
+    margin-right: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #00c6ff;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background: #ffe6e6;
+    color: #d93025;
+    border: 1px solid #f5c2c2;
+}
+
+.alert-success {
+    background: #e6f8ec;
+    color: #1e7e34;
+    border: 1px solid #c3e6cb;
+}
+
+.links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.links a {
+    color: #4facfe;
+    text-decoration: none;
+    margin: 0 8px;
+    font-weight: bold;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Student Registration</h2>
+    <div class="subtitle">Online Results Management System</div>
+
+    {% if msg %}
+        <div class="alert alert-{{ msg_type }}" id="server-msg">{{ msg }}</div>
+    {% endif %}
+
+    <p id="msg" style="text-align:center; font-weight:bold; display:none;"></p>
+
+    <form id="form" method="POST">
+        {% csrf_token %}
+        <input type="text" id="name" name="name" placeholder="Full Name" required>
+        <input type="text" id="roll" name="roll" placeholder="Roll Number / Referral ID" required>
+        <input type="tel" id="phone" name="phone" placeholder="Phone Number (10 digits)" required>
+        <input type="email" id="email" name="email" placeholder="Email Address" required>
+        <input type="text" id="fdname" name="fdname" placeholder="Father's Name">
+        
+        <div class="gender-group">
+            <span>Gender:</span>
+            <label><input type="radio" name="gender" value="Male" required> Male</label>
+            <label><input type="radio" name="gender" value="Female"> Female</label>
+        </div>
+
+        <button type="submit" id="submitBtn">Register</button>
+    </form>
+
+    <div class="links">
+        <a href="{% url 'result_login' %}">← Back to Login</a> |
+        <a href="{% url 'student_feedback' %}">💬 Feedback</a>
+    </div>
+</div>
+
+<script>
+let form = document.getElementById("form");
+
+form.addEventListener("submit", function(event) {
+    let name = document.getElementById("name").value.trim();
+    let roll = document.getElementById("roll").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let gender = document.querySelector('input[name="gender"]:checked');
+    let msg = document.getElementById("msg");
+
+    if (name === "" || roll === "" || phone === "" || email === "" || gender === null) {
+        event.preventDefault();
+        msg.style.display = "block";
+        msg.className = "alert alert-danger";
+        msg.innerHTML = "Fill all fields";
+    }
+    else if (phone.length !== 10 || isNaN(phone)) {
+        event.preventDefault();
+        msg.style.display = "block";
+        msg.className = "alert alert-danger";
+        msg.innerHTML = "Phone number must be 10 digits";
+    }
+});
+</script>
+
+{% include "includes/footer.html" with spacer=True %}
+
+</body>
+</html>
