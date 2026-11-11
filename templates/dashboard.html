@@ -130,6 +130,20 @@
             <p>View Core Results</p>
         </div>
     </a>
+
+    <a href="{% url 'student_register' %}">
+        <div class="card">
+            <h2>📋 Register</h2>
+            <p>Update Student Info</p>
+        </div>
+    </a>
+
+    <a href="{% url 'student_feedback' %}">
+        <div class="card">
+            <h2>💬 Feedback</h2>
+            <p>Academic Feedback Feed</p>
+        </div>
+    </a>
 </div>
 
 {% include "includes/footer.html" with spacer=True %}

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Feedback - MGIT SRMS</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    padding: 20px 0 80px 0;
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    margin-bottom: 30px;
+}
+
+h2 {
+    text-align: center;
+    color: #4a4fa3;
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #444;
+    font-size: 14px;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102, 126, 234, 0.4);
+}
+
+.rating-stars {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.rating-stars label {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background: #ffe6e6;
+    color: #d93025;
+    border: 1px solid #f5c2c2;
+}
+
+.alert-success {
+    background: #e6f8ec;
+    color: #1e7e34;
+    border: 1px solid #c3e6cb;
+}
+
+.links {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.links a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 8px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.feedback-feed {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.feed-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a4fa3;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 8px;
+}
+
+.feed-item {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 12px 0;
+}
+
+.feed-item:last-child {
+    border-bottom: none;
+}
+
+.feed-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #718096;
+    margin-bottom: 6px;
+}
+
+.feed-author {
+    font-weight: bold;
+    color: #2d3748;
+}
+
+.feed-rating {
+    color: #ecc94b;
+    font-size: 14px;
+}
+
+.feed-category {
+    display: inline-block;
+    background: #edf2f7;
+    color: #4a5568;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 6px;
+}
+
+.feed-comments {
+    font-size: 14px;
+    color: #4a5568;
+    line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="box">
+        <h2>Student Result & Academic Feedback</h2>
+        <div class="subtitle">Mahatma Gandhi Institute of Technology</div>
+
+        {% if msg %}
+            <div class="alert alert-{{ msg_type }}">{{ msg }}</div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="roll">Roll Number:</label>
+                <input type="text" id="roll" name="roll" value="{{ logged_in_student.roll|default:'' }}" placeholder="e.g. 2405G0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Student Name:</label>
+                <input type="text" id="name" name="name" value="{{ logged_in_student.name|default:'' }}" placeholder="Full Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Feedback Category:</label>
+                <select id="category" name="category">
+                    <option value="Results Evaluation">Results Evaluation</option>
+                    <option value="Course Content">Course Content</option>
+                    <option value="OMR Scanning">OMR Scanning</option>
+                    <option value="General Feedback">General Feedback</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Rating:</label>
+                <div class="rating-stars">
+                    <label><input type="radio" name="rating" value="5" checked> ⭐ 5 - Excellent</label>
+                    <label><input type="radio" name="rating" value="4"> ⭐ 4 - Very Good</label>
+                    <label><input type="radio" name="rating" value="3"> ⭐ 3 - Good</label>
+                    <label><input type="radio" name="rating" value="2"> ⭐ 2 - Average</label>
+                    <label><input type="radio" name="rating" value="1"> ⭐ 1 - Poor</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comments">Comments / Feedback:</label>
+                <textarea id="comments" name="comments" rows="4" placeholder="Enter your detailed feedback, inquiries regarding result evaluation, or course suggestions..." required></textarea>
+            </div>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <div class="links">
+            <a href="{% url 'result_login' %}">← Result Portal</a> |
+            <a href="{% url 'student_register' %}">📝 Registration Form</a>
+            {% if logged_in_student %}
+                | <a href="{% url 'dashboard' %}">📊 Dashboard</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if recent_feedbacks %}
+    <div class="feedback-feed">
+        <div class="feed-header">📢 Recent Student Feedback Feed</div>
+        {% for feed in recent_feedbacks %}
+            <div class="feed-item">
+                <div class="feed-meta">
+                    <div>
+                        <span class="feed-author">{{ feed.student_name }} ({{ feed.roll_number }})</span>
+                        <span class="feed-category">{{ feed.category }}</span>
+                    </div>
+                    <div>
+                        <span class="feed-rating">
+                            {% if feed.rating == 5 %}★★★★★
+                            {% elif feed.rating == 4 %}★★★★☆
+                            {% elif feed.rating == 3 %}★★★☆☆
+                            {% elif feed.rating == 2 %}★★☆☆☆
+                            {% else %}★☆☆☆☆{% endif %}
+                        </span>
+                        <span style="font-size:11px; margin-left:6px;">{{ feed.created_at|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+                <div class="feed-comments">{{ feed.comments }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% include "includes/footer.html" with spacer=True %}
+
+</body>
+</html>

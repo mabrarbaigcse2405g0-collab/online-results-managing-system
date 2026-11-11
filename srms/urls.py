@@ -28,6 +28,10 @@ urlpatterns = [
     # New feature
     path('student-profile/', views.student_profile, name='student_profile'),
     path('logout/', views.student_logout, name='logout'),
+
+    # Student Registration & Feedback features (Akshith & feed)
+    path('student-register/', views.student_register, name='student_register'),
+    path('feedback/', views.student_feedback, name='student_feedback'),
 ]
 
 
