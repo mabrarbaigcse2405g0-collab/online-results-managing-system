@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Subject, StudentOMR, Result, CorrectAnswer
-from students.models import Student
+from students.models import Student, Feedback
 from .summary import build_result_summary
 
 import cv2
@@ -208,4 +208,97 @@ def student_profile(request):
         return redirect("result_login")
     student = get_object_or_404(Student, id=student_id)
     return render(request, "dashboard.html", {"student": student})
+
+
+# =========================
+# STUDENT REGISTRATION
+# =========================
+def student_register(request):
+    msg = None
+    msg_type = None
+
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        roll = request.POST.get("roll", "").strip()
+        phone = request.POST.get("phone", "").strip()
+        email = request.POST.get("email", "").strip()
+        fdname = request.POST.get("fdname", "").strip()
+        gender = request.POST.get("gender", "").strip()
+
+        if not name or not roll or not phone or not email or not gender:
+            msg = "Fill all fields"
+            msg_type = "danger"
+        elif len(phone) != 10 or not phone.isdigit():
+            msg = "Phone number must be 10 digits"
+            msg_type = "danger"
+        else:
+            student, created = Student.objects.update_or_create(
+                roll=roll,
+                defaults={
+                    "name": name,
+                    "phone": phone,
+                    "email": email,
+                    "father_name": fdname,
+                    "gender": gender,
+                }
+            )
+            msg = f"Registration Successful for {name} ({roll})!"
+            msg_type = "success"
+
+    return render(request, "student_register.html", {
+        "msg": msg,
+        "msg_type": msg_type
+    })
+
+
+# =========================
+# STUDENT FEEDBACK (FEED)
+# =========================
+def student_feedback(request):
+    msg = None
+    msg_type = None
+
+    # Check if student is logged in to prefill
+    logged_in_student = None
+    student_id = request.session.get("student_id")
+    if student_id:
+        logged_in_student = Student.objects.filter(id=student_id).first()
+
+    if request.method == "POST":
+        roll = request.POST.get("roll", "").strip()
+        name = request.POST.get("name", "").strip()
+        category = request.POST.get("category", "Results Evaluation")
+        rating = request.POST.get("rating", "5")
+        comments = request.POST.get("comments", "").strip()
+
+        if not roll or not name or not comments:
+            msg = "Please provide your roll number, name, and comments."
+            msg_type = "danger"
+        else:
+            try:
+                rating_val = int(rating)
+            except ValueError:
+                rating_val = 5
+
+            student_obj = Student.objects.filter(roll=roll).first()
+
+            Feedback.objects.create(
+                student=student_obj,
+                roll_number=roll,
+                student_name=name,
+                category=category,
+                rating=rating_val,
+                comments=comments
+            )
+            msg = "Thank you! Your feedback has been recorded successfully."
+            msg_type = "success"
+
+    recent_feedbacks = Feedback.objects.all().order_by("-created_at")[:8]
+
+    return render(request, "feedback.html", {
+        "msg": msg,
+        "msg_type": msg_type,
+        "logged_in_student": logged_in_student,
+        "recent_feedbacks": recent_feedbacks
+    })
    

@@ -87,6 +87,12 @@
         <div class="error">{{ error }}</div>
     {% endif %}
 
+    <div style="margin-top: 20px; font-size: 13px; border-top: 1px solid #eee; padding-top: 15px;">
+        <a href="{% url 'student_register' %}" style="color: #4facfe; text-decoration: none; font-weight: bold;">📝 New Student Registration</a>
+        <br><br>
+        <a href="{% url 'student_feedback' %}" style="color: #667eea; text-decoration: none;">💬 Give Academic Feedback</a>
+    </div>
+
 </div>
 
 {% include "includes/footer.html" %}
